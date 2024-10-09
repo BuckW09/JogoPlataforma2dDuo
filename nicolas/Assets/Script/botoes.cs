@@ -22,6 +22,11 @@ public class botoes : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void IrParaInicio()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     public void sair()
     {
         Application.Quit();

@@ -8,6 +8,7 @@ TagManager:
   - +vida
   - 0vida
   - +mun
+  - PontCol
   layers:
   - Default
   - TransparentFX

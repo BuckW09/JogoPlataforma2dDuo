@@ -30,6 +30,10 @@ public class MovimentosBasicos : MonoBehaviour
 
     public Animator anim;
 
+    public int pontuacao;
+    public TextMeshProUGUI pontuacaoTxt;
+
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -41,39 +45,40 @@ public class MovimentosBasicos : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-        movH = Input.GetAxisRaw("Horizontal");
-
-        rB.velocity = new Vector2(movH * velocidade, rB.velocity.y);
-
-        if (movH > 0 && verificarDirecao)
+        if (isGO == false)
         {
-            flip();
 
+            movH = Input.GetAxisRaw("Horizontal");
+
+            rB.velocity = new Vector2(movH * velocidade, rB.velocity.y);
+
+            if (movH > 0 && verificarDirecao)
+            {
+                flip();
+
+            }
+            else if (movH < 0 && verificarDirecao == false)
+            {
+                flip();
+            }
+
+            if (Input.GetButtonDown("Jump") && sensor)
+            {
+                rB.AddForce(new Vector2(0, jump), ForceMode2D.Impulse);
+            }
+
+            if (vida <= 0)
+            {
+                vida = 0;
+            }
+            anim.SetInteger("Mov", (int)movH);
+            InstanciarMunicao();
+            MecVida();
         }
-        else if (movH < 0 && verificarDirecao == false)
-        {
-            flip();
-        }
-
-        if (Input.GetButtonDown("Jump") && sensor)
-        {
-            rB.AddForce(new Vector2(0, jump), ForceMode2D.Impulse);
-        }
-
-        if (vida <= 0)
-        {
-            vida = 0;
-        }
-
-
         txtmunicao.text = municao.ToString();
 
-
-        anim.SetInteger("Mov", (int)movH);
-        InstanciarMunicao();
-        MecVida();
+        Morte();
+        
     }
 
     private void InstanciarMunicao()
@@ -117,7 +122,7 @@ public class MovimentosBasicos : MonoBehaviour
         }
         else
         {
-            Time.timeScale = 0;
+            Time.timeScale = 1;
         }
     }
 
@@ -155,6 +160,11 @@ public class MovimentosBasicos : MonoBehaviour
             municao++;
             Destroy(collision.gameObject);
         }
+        if(collision.tag == "PontCol")
+        {
+
+        }
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

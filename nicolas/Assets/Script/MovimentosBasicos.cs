@@ -26,8 +26,12 @@ public class MovimentosBasicos : MonoBehaviour
     public float velocidadeMunicao;
     public Transform posicaoMunicao;
 
+
+    public Animator anim;
+
     void Start()
     {
+        anim = GetComponent<Animator>();
         rB = GetComponent<Rigidbody2D>();
         vida = 3;
         municao = 5;
@@ -64,6 +68,8 @@ public class MovimentosBasicos : MonoBehaviour
 
         txtmunicao.text = municao.ToString();
 
+
+        anim.SetInteger("Mov", (int)movH);
         InstanciarMunicao();
         MecVida();
     }
@@ -72,9 +78,11 @@ public class MovimentosBasicos : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0) && municao > 0)
         {
+            anim.SetTrigger("Tiro");
             GameObject temp = Instantiate(municaoObj, posicaoMunicao.position, Quaternion.identity);
             temp.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(velocidadeMunicao, 0);
             municao--;
+            
         }
     }
     void MecVida()

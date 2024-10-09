@@ -17,7 +17,8 @@ public class MovimentosBasicos : MonoBehaviour
     public bool verificarDirecao;
 
     public int vida;
-    public TextMeshProUGUI txtVida;
+    public GameObject[] vidaImage;
+    
     public int municao;
     public TextMeshProUGUI txtmunicao;
 
@@ -28,14 +29,14 @@ public class MovimentosBasicos : MonoBehaviour
     void Start()
     {
         rB = GetComponent<Rigidbody2D>();
-        vida = 5;
+        vida = 3;
         municao = 5;
     }
 
     // Update is called once per frame
     void Update()
     {
-        txtVida.text = vida.ToString();
+       
 
         movH = Input.GetAxisRaw("Horizontal");
 
@@ -64,6 +65,7 @@ public class MovimentosBasicos : MonoBehaviour
         txtmunicao.text = municao.ToString();
 
         InstanciarMunicao();
+        MecVida();
     }
 
     private void InstanciarMunicao()
@@ -73,6 +75,19 @@ public class MovimentosBasicos : MonoBehaviour
             GameObject temp = Instantiate(municaoObj, posicaoMunicao.position, Quaternion.identity);
             temp.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(velocidadeMunicao, 0);
             municao--;
+        }
+    }
+    void MecVida()
+    {
+        for(int i = 0; i < 5; i++)
+        {
+            if (vida >= (i+1))
+            {
+                vidaImage[i].SetActive(true);
+            }else
+            {
+                vidaImage[i].SetActive(false);
+            }
         }
     }
     private void FixedUpdate()
@@ -95,15 +110,15 @@ public class MovimentosBasicos : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "MaisVida")
+        if(collision.gameObject.tag == "MaisVida" && vida <=5)
         {
             vida++;
             Destroy(collision.gameObject);
         }
 
-        if (collision.gameObject.tag == "MenosVida")
+        if (collision.gameObject.tag == "MenosVida" && vida >=0)
         {
-            vida++;
+            vida--;
             Destroy(collision.gameObject);
         }
 

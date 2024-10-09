@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8587093
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1217,7 +1217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1255263778
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1337,15 +1337,20 @@ MonoBehaviour:
   movH: 0
   velocidade: 10
   jump: 5
-  posSensor: {fileID: 0}
+  posSensor: {fileID: 997836462}
   sensor: 0
   verificarDirecao: 0
-  vida: 0
-  txtVida: {fileID: 0}
+  vida: 3
+  vidaImage:
+  - {fileID: 173624885}
+  - {fileID: 1674362467}
+  - {fileID: 8587092}
+  - {fileID: 1255263777}
+  - {fileID: 163752261}
   municao: 0
   txtmunicao: {fileID: 936542410}
   municaoObj: {fileID: 8106874369500629473, guid: 7df1ad38df6bb7947bb6276bae917b1e, type: 3}
-  velocidadeMunicao: 2
+  velocidadeMunicao: 5
   posicaoMunicao: {fileID: 1000704237}
 --- !u!60 &1516215364
 PolygonCollider2D:

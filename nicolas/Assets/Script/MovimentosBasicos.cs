@@ -18,7 +18,7 @@ public class MovimentosBasicos : MonoBehaviour
 
     public int vida;
     public GameObject[] vidaImage;
-    
+
     public int municao;
     public TextMeshProUGUI txtmunicao;
 
@@ -26,6 +26,7 @@ public class MovimentosBasicos : MonoBehaviour
     public float velocidadeMunicao;
     public Transform posicaoMunicao;
 
+    bool isGO;
 
     public Animator anim;
 
@@ -40,24 +41,25 @@ public class MovimentosBasicos : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
 
         movH = Input.GetAxisRaw("Horizontal");
 
         rB.velocity = new Vector2(movH * velocidade, rB.velocity.y);
 
-        if(movH > 0 && verificarDirecao)
+        if (movH > 0 && verificarDirecao)
         {
             flip();
 
-        }else if(movH < 0 && verificarDirecao == false)
+        }
+        else if (movH < 0 && verificarDirecao == false)
         {
             flip();
         }
 
-        if(Input.GetButtonDown("Jump")&& sensor)
+        if (Input.GetButtonDown("Jump") && sensor)
         {
-            rB.AddForce(new Vector2(0, jump),ForceMode2D.Impulse);
+            rB.AddForce(new Vector2(0, jump), ForceMode2D.Impulse);
         }
 
         if (vida <= 0)
@@ -76,23 +78,24 @@ public class MovimentosBasicos : MonoBehaviour
 
     private void InstanciarMunicao()
     {
-        if(Input.GetMouseButtonDown(0) && municao > 0)
+        if (Input.GetMouseButtonDown(0) && municao > 0)
         {
             anim.SetTrigger("Tiro");
             GameObject temp = Instantiate(municaoObj, posicaoMunicao.position, Quaternion.identity);
             temp.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(velocidadeMunicao, 0);
             municao--;
-            
+
         }
     }
     void MecVida()
     {
-        for(int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
-            if (vida >= (i+1))
+            if (vida >= (i + 1))
             {
                 vidaImage[i].SetActive(true);
-            }else
+            }
+            else
             {
                 vidaImage[i].SetActive(false);
             }
@@ -102,14 +105,31 @@ public class MovimentosBasicos : MonoBehaviour
     {
         sensor = Physics2D.OverlapCircle(posSensor.position, 0.3f);
     }
+    void Morte()
+    {
+        if(vida <= 0)
+        {
+            isGO = true;
+        }
+        if (isGO)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 0;
+        }
+    }
+
+
 
     public void flip()
     {
         verificarDirecao = !verificarDirecao; //verificacar a direcao que o sprite esta olahndo
-         
+
         float x = transform.localScale.x * -1;
 
-        transform.localScale = new Vector3(x,transform.localScale.y,transform.localScale.z);
+        transform.localScale = new Vector3(x, transform.localScale.y, transform.localScale.z);
 
         velocidadeMunicao *= -1;
 
@@ -118,22 +138,30 @@ public class MovimentosBasicos : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "MaisVida" && vida <=5)
+        if (collision.gameObject.tag == "+vida" && vida <= 5)
         {
             vida++;
             Destroy(collision.gameObject);
         }
 
-        if (collision.gameObject.tag == "MenosVida" && vida >=0)
+        if (collision.gameObject.tag == "-vida" && vida >= 0)
         {
             vida--;
             Destroy(collision.gameObject);
         }
-
-        if (collision.gameObject.tag == "RecarMunicao")
+        
+        if (collision.gameObject.tag == "+mun")
         {
             municao++;
             Destroy(collision.gameObject);
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "0vida" && vida >= 0)
+        {
+            vida = 0;
+
         }
     }
 }

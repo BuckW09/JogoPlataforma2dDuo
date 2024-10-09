@@ -6,12 +6,12 @@ using TMPro;
 
 public class MovimentosBasicos : MonoBehaviour
 {
-    public float movimentoHorizontal;
+    public float movH;
     private Rigidbody2D rB;
     public float velocidade;
     public float jump;
 
-    public Transform posicaoSensor;
+    public Transform posSensor;
     public bool sensor;
 
     public bool verificarDirecao;
@@ -37,15 +37,15 @@ public class MovimentosBasicos : MonoBehaviour
     {
         txtVida.text = vida.ToString();
 
-        movimentoHorizontal = Input.GetAxisRaw("Horizontal");
+        movH = Input.GetAxisRaw("Horizontal");
 
-        rB.velocity = new Vector2(movimentoHorizontal * velocidade, rB.velocity.y);
+        rB.velocity = new Vector2(movH * velocidade, rB.velocity.y);
 
-        if(movimentoHorizontal > 0 && verificarDirecao)
+        if(movH > 0 && verificarDirecao)
         {
             flip();
 
-        }else if(movimentoHorizontal < 0 && verificarDirecao == false)
+        }else if(movH < 0 && verificarDirecao == false)
         {
             flip();
         }
@@ -77,7 +77,7 @@ public class MovimentosBasicos : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        sensor = Physics2D.OverlapCircle(posicaoSensor.position, 0.3f);
+        sensor = Physics2D.OverlapCircle(posSensor.position, 0.3f);
     }
 
     public void flip()
